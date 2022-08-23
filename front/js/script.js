@@ -33,6 +33,9 @@ fetch("http://localhost:3000/api/products")
 
     }
 
+    
+   
+    
 }).catch((err) => {
    console.log(err)
 })
