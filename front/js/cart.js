@@ -1,11 +1,11 @@
 let prix = 0;
 let totalProduct = 0;
 
-for(let i = 1; i <= localStorage.length; i++) {
+for( let i = 1; i < localStorage.length; i++) {
     let data = localStorage[i].split(',')
 
    console.log(data)
-   prix += parseInt(data[4], 10)
+   prix += parseInt(data[4], 10) * parseInt(data[1], 10)
    totalProduct += parseInt(data[1], 10)
 
     // create DOM Elements
@@ -40,7 +40,7 @@ for(let i = 1; i <= localStorage.length; i++) {
 
 
     let input = document.createElement('input');
-    input.className = "itemQuantity";
+    input.setAttribute("class" ,"itemQuantity");
     input.setAttribute('type', "number");
     input.setAttribute('name', "itemQuantity");
     input.setAttribute('min', "1");
@@ -48,7 +48,7 @@ for(let i = 1; i <= localStorage.length; i++) {
     input.setAttribute('value', `${data[1]}`);
 
     let heading = document.createElement('h2');
-    heading.innerText = "NOM"
+    heading.innerText = data[5]
 
     let color = document.createElement('p');
     color.innerText = data[2];
@@ -86,25 +86,64 @@ for(let i = 1; i <= localStorage.length; i++) {
 
 
 
-
-
     cartImg.appendChild(img);
     article.appendChild(cartImg);
     article.appendChild(cartItemContent);
 
     document.getElementById('cart__items').appendChild(article)
-     
-
     
-
-
 
    
 }
 
 
+
 document.getElementById('totalQuantity').innerText = totalProduct;
 document.getElementById('totalPrice').innerText = prix;
 
+const inputs = document.querySelectorAll('.itemQuantity');
+console.log(inputs)
+inputs.forEach(input => {
+    input.addEventListener('change', (e) => {
+        let id = e.path[4].dataset.id;
+        let color = e.path[4].dataset.color;
+        let newValue = e.target.value;
+        console.log(id)
+        console.log(color)
+        console.log(newValue)
+
+
+        for(let i = 1; i <= localStorage.length; i++) {
+            let arr = localStorage[i].split(',');
+            if(arr[0] === id && arr[2] === color) {
+                arr[1] = newValue;
+
+                return localStorage.setItem(i, arr.join())
+            } 
+            
+         }
+    })
+})
+
+
+const deleteButtons = document.querySelectorAll('.deleteItem');
+deleteButtons.forEach(deleteButton => {
+    deleteButton.addEventListener('click', (e) => {
+        let container = e.path[4];
+        let item = e.path[4].dataset
+
+        for(let i = 1; i < localStorage.length; i++) {
+            let arr = localStorage[i].split(',');
+            if(arr[0] === item.id && arr[2] === item.color) {
+              localStorage.removeItem(i)
+            }
+        }
+        console.log(e)
+        console.log(item)
+        container.remove()
+
+    })
+})
+console.log(deleteButtons)
 
 console.log(localStorage)

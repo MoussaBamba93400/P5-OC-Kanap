@@ -1,5 +1,3 @@
-
-
 fetch('http://localhost:3000/api/products')
 .then(function(res) {
     if(res.ok) {
@@ -36,7 +34,7 @@ fetch('http://localhost:3000/api/products')
     console.log(product)
      
 
-    function storeProduct(id, quantity, color, img, price) {
+    function storeProduct(id, quantity, color, img, price, name) {
 
         for(let i = 1; i <= localStorage.length; i++) {
             let arr = localStorage[i].split(',');
@@ -54,7 +52,7 @@ fetch('http://localhost:3000/api/products')
         }
 
 
-        let item = [id, quantity, color, img, price];
+        let item = [id, quantity, color, img, price, name];
          let key = localStorage.length +1;
         localStorage.setItem(key, item)
 
@@ -62,7 +60,7 @@ fetch('http://localhost:3000/api/products')
        
     }
     
-    document.getElementById('addToCart').addEventListener('click', () => storeProduct(product._id, document.getElementById('quantity').value, document.getElementById('colors').value, product.imageUrl, product.price))
+    document.getElementById('addToCart').addEventListener('click', () => storeProduct(product._id, document.getElementById('quantity').value, document.getElementById('colors').value, product.imageUrl, product.price, product.name))
 
     console.log(localStorage)
    
