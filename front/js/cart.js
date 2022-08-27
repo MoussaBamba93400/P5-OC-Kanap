@@ -1,12 +1,13 @@
 let prix = 0;
 let totalProduct = 0;
+let myList = JSON.parse(localStorage.getItem('myList'))
 
-for( let i = 1; i < localStorage.length; i++) {
-    let data = localStorage[i].split(',')
+for( let i = 0;  myList.length > 0 && i < myList.length ; i++) {
+    let data = myList[i]
 
    console.log(data)
-   prix += parseInt(data[4], 10) * parseInt(data[1], 10)
-   totalProduct += parseInt(data[1], 10)
+   prix += data[4] * data[1]
+   totalProduct += data[1]
 
     // create DOM Elements
     let article = document.createElement('article');
@@ -102,7 +103,7 @@ document.getElementById('totalQuantity').innerText = totalProduct;
 document.getElementById('totalPrice').innerText = prix;
 
 const inputs = document.querySelectorAll('.itemQuantity');
-console.log(inputs)
+
 inputs.forEach(input => {
     input.addEventListener('change', (e) => {
         let id = e.path[4].dataset.id;
@@ -113,12 +114,14 @@ inputs.forEach(input => {
         console.log(newValue)
 
 
-        for(let i = 1; i <= localStorage.length; i++) {
-            let arr = localStorage[i].split(',');
+        for(let i = 0; i < myList.length; i++) {
+            let arr = myList[i];
             if(arr[0] === id && arr[2] === color) {
                 arr[1] = newValue;
+                myList[i] = arr;
 
-                return localStorage.setItem(i, arr.join())
+                return  localStorage.setItem("myList", JSON.stringify(myList));
+
             } 
             
          }
@@ -135,15 +138,18 @@ deleteButtons.forEach(deleteButton => {
         for(let i = 1; i < localStorage.length; i++) {
             let arr = localStorage[i].split(',');
             if(arr[0] === item.id && arr[2] === item.color) {
-              localStorage.removeItem(i)
+                localStorage.removeItem(i)
+               for(let j = i +1 ; j <= localStorage.length; j++) {
+                  let currItem = localStorage.getItem(j)
+                  localStorage.removeItem(j)
+                  localStorage.setItem(j-1, currItem)
+               }
             }
         }
-        console.log(e)
-        console.log(item)
+
         container.remove()
+        console.log(item)
 
     })
 })
-console.log(deleteButtons)
 
-console.log(localStorage)

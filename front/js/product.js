@@ -1,3 +1,4 @@
+
 fetch('http://localhost:3000/api/products')
 .then(function(res) {
     if(res.ok) {
@@ -35,16 +36,28 @@ fetch('http://localhost:3000/api/products')
      
 
     function storeProduct(id, quantity, color, img, price, name) {
+        if(localStorage.length === 0) {
+            localStorage.setItem("myList", "[]");
+        }
 
-        for(let i = 1; i <= localStorage.length; i++) {
-            let arr = localStorage[i].split(',');
+        let myList = JSON.parse(localStorage.getItem("myList", "[]"));
+        
+
+        
+        for(let i = 0; i < myList.length; i++) {
+
+
+            let arr = myList[i];
+
             if(arr[0] === id && arr[2] === color) {
-                arr[1] = parseInt(arr[1], 10) + 1;
+                arr[1] = parseInt(arr[1]) + 1;
 
-                return localStorage.setItem(i, arr.join())
+               myList[i] = arr;
+               return  localStorage.setItem("myList", JSON.stringify(myList));
             } 
             
          }
+        
         
 
         if(quantity == 0) {
@@ -52,17 +65,21 @@ fetch('http://localhost:3000/api/products')
         }
 
 
-        let item = [id, quantity, color, img, price, name];
-         let key = localStorage.length +1;
-        localStorage.setItem(key, item)
 
-       console.log(localStorage)
+        let item = [id, quantity, color, img, price, name];
+        myList.push(item);
+        localStorage.setItem("myList", JSON.stringify(myList));
+        
+    
+
+       console.log(localStorage.getItem("myList"))
        
     }
     
     document.getElementById('addToCart').addEventListener('click', () => storeProduct(product._id, document.getElementById('quantity').value, document.getElementById('colors').value, product.imageUrl, product.price, product.name))
 
-    console.log(localStorage)
+    let myList = JSON.parse(localStorage.getItem("myList"));
+   
    
 }).catch(function(err) {
     console.log(err)
