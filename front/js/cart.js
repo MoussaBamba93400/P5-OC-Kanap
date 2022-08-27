@@ -135,15 +135,11 @@ deleteButtons.forEach(deleteButton => {
         let container = e.path[4];
         let item = e.path[4].dataset
 
-        for(let i = 1; i < localStorage.length; i++) {
-            let arr = localStorage[i].split(',');
+        for(let i = 0; i < myList.length; i++) {
+            let arr = myList[i];
             if(arr[0] === item.id && arr[2] === item.color) {
-                localStorage.removeItem(i)
-               for(let j = i +1 ; j <= localStorage.length; j++) {
-                  let currItem = localStorage.getItem(j)
-                  localStorage.removeItem(j)
-                  localStorage.setItem(j-1, currItem)
-               }
+                myList.splice(i, 1)
+                return  localStorage.setItem("myList", JSON.stringify(myList));
             }
         }
 
