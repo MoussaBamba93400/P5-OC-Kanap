@@ -149,3 +149,85 @@ deleteButtons.forEach(deleteButton => {
     })
 })
 
+// CHECK THE FORM
+
+let firstName = document.getElementById('firstName');
+let lastName = document.getElementById('lastName');
+let address = document.getElementById('address');
+let city = document.getElementById('city');
+let email = document.getElementById('email');
+
+let prenom = nom = adresse = ville = Email = 0;
+
+
+let contact = {
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    email: ""
+}
+
+firstName.addEventListener('change', (e) => {
+     contact.firstName = e.target.value;
+     console.log(contact)
+})
+
+lastName.addEventListener('change', (e) => {
+     contact.lastName = e.target.value;
+     console.log(contact)
+})
+
+address.addEventListener('change', (e) => {
+     contact.address = e.target.value;
+     console.log(contact)
+})
+
+city.addEventListener('change', (e) => {
+     contact.city = e.target.value;
+     console.log(contact)
+})
+
+email.addEventListener('change', (e) => {
+    let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    let test = regex.test(e.target.value);
+    if(test) {
+        contact.email = e.target.value;
+        document.getElementById('emailErrorMsg').innerText = "";
+        console.log(contact)
+    } else {
+        document.getElementById('emailErrorMsg').innerText = "email non valide";
+        document.getElementById('emailErrorMsg').style.color = "red";
+        document.getElementById('emailErrorMsg').style.fontSize = "20px";
+
+    }
+    
+})
+
+
+let productId = myList.map(product => product[0])
+
+console.log(productId)
+document.querySelector(".cart__order__form").addEventListener('submit', function(e)  {
+   e.preventDefault();
+
+  fetch("http://localhost:3000/api/products/order", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8'
+    },
+    body: JSON.stringify({
+        contact
+        ,
+        products : productId,
+    })
+  })
+  .then(response => response.json())
+  .then(json =>  { window.location.href = '../html/confirmation.html'; })
+   
+
+  
+  
+})
+
+
