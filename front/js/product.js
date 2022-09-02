@@ -1,16 +1,19 @@
+let params = window.location.search
+params = params.slice(4, params.length)
 
-fetch('http://localhost:3000/api/products')
+
+fetch(`http://localhost:3000/api/products/${params}`)
 .then(function(res) {
     if(res.ok) {
         return res.json()
     }
 }).then(function(value) {
     // find the right product
-    let params = window.location.search
-    params = params.slice(4, params.length)
-     let test = value.filter((obj) => obj._id === params? obj: null )
-     const product = test[0];
+     
+    console.log(value)
 
+    
+     const product = value;
     //element creation 
     let image = document.createElement('img');
     image.setAttribute('src', product.imageUrl)
@@ -35,7 +38,7 @@ fetch('http://localhost:3000/api/products')
     console.log(product)
      
 
-    function storeProduct(id, quantity, color, img, price, name) {
+    function storeProduct(id, quantity, color) {
         if(localStorage.length === 0) {
             localStorage.setItem("myList", "[]");
         }
@@ -66,7 +69,7 @@ fetch('http://localhost:3000/api/products')
 
 
 
-        let item = [id, quantity, color, img, price, name];
+        let item = [id, quantity, color];
         myList.push(item);
         localStorage.setItem("myList", JSON.stringify(myList));
         
@@ -76,11 +79,14 @@ fetch('http://localhost:3000/api/products')
        
     }
     
-    document.getElementById('addToCart').addEventListener('click', () => storeProduct(product._id, document.getElementById('quantity').value, document.getElementById('colors').value, product.imageUrl, product.price, product.name))
+    document.getElementById('addToCart').addEventListener('click', () => storeProduct(product._id, document.getElementById('quantity').value, document.getElementById('colors').value))
 
     let myList = JSON.parse(localStorage.getItem("myList"));
    
    
+   console.log(myList)
+
+    
 }).catch(function(err) {
     console.log(err)
 })
