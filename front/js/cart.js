@@ -209,23 +209,59 @@ let contact = {
 }
 
 firstName.addEventListener('change', (e) => {
+    let regex = /[0-9]/g;
+    let test = regex.test(e.target.value);
+    if(!test) {
      contact.firstName = e.target.value;
+     document.getElementById('firstNameErrorMsg').innerText = "";
      console.log(contact)
+    } else {
+        document.getElementById('firstNameErrorMsg').innerText = "Entrez une prenom";
+        document.getElementById('firstNameErrorMsg').style.color = "red";
+        document.getElementById('firstNameErrorMsg').style.fontSize = "20px";
+    }
 })
 
 lastName.addEventListener('change', (e) => {
+    let regex = /[0-9]/g;
+    let test = regex.test(e.target.value);
+    if(!test) {
      contact.lastName = e.target.value;
+     document.getElementById('lastNameErrorMsg').innerText = "";
      console.log(contact)
+    } else {
+        document.getElementById('lastNameErrorMsg').innerText = "Entrez un nom";
+        document.getElementById('lastNameErrorMsg').style.color = "red";
+        document.getElementById('lastNameErrorMsg').style.fontSize = "20px";
+    }
 })
 
 address.addEventListener('change', (e) => {
+    let regex = /[0-9]/g;
+    let test = regex.test(e.target.value);
+    if(test) {
      contact.address = e.target.value;
+     document.getElementById('addressErrorMsg').innerText = "";
      console.log(contact)
+    } else {
+        document.getElementById('addressErrorMsg').innerText = "email non valide";
+        document.getElementById('addressErrorMsg').style.color = "red";
+        document.getElementById('addressErrorMsg').style.fontSize = "20px";
+    }
 })
 
 city.addEventListener('change', (e) => {
+    let regex = /[0-9]/g;
+    let test = regex.test(e.target.value);
+    if(!test) {
      contact.city = e.target.value;
+     document.getElementById('cityErrorMsg').innerText = "";
      console.log(contact)
+    } else {
+        document.getElementById('cityErrorMsg').innerText = "email non valide";
+        document.getElementById('cityErrorMsg').style.color = "red";
+        document.getElementById('cityErrorMsg').style.fontSize = "20px";
+    }
 })
 
 email.addEventListener('change', (e) => {
