@@ -244,7 +244,7 @@ address.addEventListener('change', (e) => {
      document.getElementById('addressErrorMsg').innerText = "";
      console.log(contact)
     } else {
-        document.getElementById('addressErrorMsg').innerText = "email non valide";
+        document.getElementById('addressErrorMsg').innerText = "Entrez une adresse";
         document.getElementById('addressErrorMsg').style.color = "red";
         document.getElementById('addressErrorMsg').style.fontSize = "20px";
     }
@@ -255,10 +255,10 @@ city.addEventListener('change', (e) => {
     let test = regex.test(e.target.value);
     if(!test) {
      contact.city = e.target.value;
-     document.getElementById('cityErrorMsg').innerText = "";
+     document.getElementById('cityErrorMsg').innerText = "  ";
      console.log(contact)
     } else {
-        document.getElementById('cityErrorMsg').innerText = "email non valide";
+        document.getElementById('cityErrorMsg').innerText = "Entrez une ville";
         document.getElementById('cityErrorMsg').style.color = "red";
         document.getElementById('cityErrorMsg').style.fontSize = "20px";
     }
