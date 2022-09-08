@@ -122,13 +122,22 @@ inputs.forEach(input => {
         console.log(id)
         console.log(color)
         console.log(newValue)
+        console.log(e)
+      
 
+        if(newValue < 1) {
+            e.target.value = 1;
+            newValue = 1;
+             window.alert('Erreur de quantité! Choisissez une quantité valide.')
+         }
 
         for(let i = 0; i < myList.length; i++) {
             let arr = myList[i];
             if(arr[0] === id && arr[2] === color) {
                 arr[1] = newValue;
                 myList[i] = arr;
+
+                
                 
                 setTimeout(() => {
                     document.location.reload();
@@ -208,70 +217,86 @@ let contact = {
     email: ""
 }
 
+
+let fName;
 firstName.addEventListener('change', (e) => {
     let regex = /[0-9]/g;
     let test = regex.test(e.target.value);
     if(!test) {
      contact.firstName = e.target.value;
      document.getElementById('firstNameErrorMsg').innerText = "";
+     fName = true ;
      console.log(contact)
     } else {
+        fName = false;
         document.getElementById('firstNameErrorMsg').innerText = "Entrez une prenom";
         document.getElementById('firstNameErrorMsg').style.color = "red";
         document.getElementById('firstNameErrorMsg').style.fontSize = "20px";
     }
 })
 
+let lName;
 lastName.addEventListener('change', (e) => {
     let regex = /[0-9]/g;
     let test = regex.test(e.target.value);
     if(!test) {
      contact.lastName = e.target.value;
      document.getElementById('lastNameErrorMsg').innerText = "";
+     lName = true;
      console.log(contact)
     } else {
+        lName = false;
         document.getElementById('lastNameErrorMsg').innerText = "Entrez un nom";
         document.getElementById('lastNameErrorMsg').style.color = "red";
         document.getElementById('lastNameErrorMsg').style.fontSize = "20px";
     }
 })
 
+let Adr;
 address.addEventListener('change', (e) => {
     let regex = /[0-9]/g;
     let test = regex.test(e.target.value);
     if(test) {
      contact.address = e.target.value;
      document.getElementById('addressErrorMsg').innerText = "";
+     Adr = true;
      console.log(contact)
     } else {
+        Adr = false;
         document.getElementById('addressErrorMsg').innerText = "Entrez une adresse";
         document.getElementById('addressErrorMsg').style.color = "red";
         document.getElementById('addressErrorMsg').style.fontSize = "20px";
     }
 })
 
+let cit;
 city.addEventListener('change', (e) => {
     let regex = /[0-9]/g;
     let test = regex.test(e.target.value);
     if(!test) {
      contact.city = e.target.value;
-     document.getElementById('cityErrorMsg').innerText = "  ";
+     document.getElementById('cityErrorMsg').innerText = "";
+     cit = true;
      console.log(contact)
     } else {
+        cit = false;
         document.getElementById('cityErrorMsg').innerText = "Entrez une ville";
         document.getElementById('cityErrorMsg').style.color = "red";
         document.getElementById('cityErrorMsg').style.fontSize = "20px";
     }
 })
 
+let mail;
 email.addEventListener('change', (e) => {
     let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     let test = regex.test(e.target.value);
     if(test) {
         contact.email = e.target.value;
         document.getElementById('emailErrorMsg').innerText = "";
+        mail = true;
         console.log(contact)
     } else {
+        mail = false;
         document.getElementById('emailErrorMsg').innerText = "email non valide";
         document.getElementById('emailErrorMsg').style.color = "red";
         document.getElementById('emailErrorMsg').style.fontSize = "20px";
@@ -286,7 +311,12 @@ let productId = myList.map(product => product[0])
 console.log(productId)
 document.querySelector(".cart__order__form").addEventListener('submit', function(e)  {
    e.preventDefault();
-
+    
+   if([fName, lName, Adr, cit, mail].every(value => value == true) !== true) {
+    return window.alert('Veuillez inscrire des informations valide!')
+   } else if(productId.length === 0) {
+    return window.alert('le panier est vide!')
+   }  else {
   fetch("http://localhost:3000/api/products/order", {
     method: 'POST',
     headers: {
@@ -299,12 +329,9 @@ document.querySelector(".cart__order__form").addEventListener('submit', function
     })
   })
   .then(response => response.json())
-  .then(json =>  { window.location.href = `../html/confirmation.html?id=${json.orderId}`;
-    localStorage.clear();
-})
-   
-
-  
+  .then(json =>  { console.log(json)
+}).catch(err => console.log(err))
+}
   
 })
 

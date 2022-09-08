@@ -39,6 +39,15 @@ fetch(`http://localhost:3000/api/products/${params}`)
      
 
     function storeProduct(id, quantity, color) {
+        
+        if(color == "") {
+            return window.alert('Veuillez choisir la couleur!')
+        }
+
+        if(quantity < 1) {
+            return window.alert('Veuillez choisir la quantité!');
+        }
+
         if(localStorage.length === 0) {
             localStorage.setItem("myList", "[]");
         }
@@ -63,10 +72,7 @@ fetch(`http://localhost:3000/api/products/${params}`)
         
         
 
-        if(quantity == 0) {
-            quantity = 1;
-        }
-
+        
 
 
         let item = [id, quantity, color];
