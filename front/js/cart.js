@@ -329,7 +329,8 @@ document.querySelector(".cart__order__form").addEventListener('submit', function
     })
   })
   .then(response => response.json())
-  .then(json =>  { console.log(json)
+  .then(json =>  {window.location.href = `../html/confirmation.html?id=${json.orderId}`
+   localStorage.clear()
 }).catch(err => console.log(err))
 }
   
